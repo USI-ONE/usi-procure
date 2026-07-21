@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USI Procure — Proposed Architecture</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .top-shell { background:#0f172a; color:#fff; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+    .top-brand { display:flex; align-items:center; gap:10px; }
+    .top-brand .mark { width:30px; height:30px; border-radius:7px; background:#2563eb; color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; }
+    .top-brand b { font-size:15px; font-weight:700; letter-spacing:-0.2px; }
+    .top-brand span { font-size:11px; color:#94a3b8; display:block; margin-top:1px; }
+    .top-tabs { display:flex; gap:2px; }
+    .top-tabs a { color:#cbd5e1; text-decoration:none; font-size:13px; font-weight:500; padding:8px 16px; border-radius:7px; }
+    .top-tabs a:hover { background:#1e293b; color:#fff; }
+    .top-tabs a.active { background:#2563eb; color:#fff; }
+    .wf-wrap { max-width:1080px; margin:0 auto; padding:24px; display:flex; flex-direction:column; gap:20px; }
+
+    .arch-intro { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:4px; }
+    .arch-pill { font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:20px; background:#eef2ff; color:#4338ca; border:1px solid #e0e7ff; }
+    .arch-note { font-size:12.5px; color:#64748b; background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:10px 14px; margin-bottom:8px; }
+
+    .dgm { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:22px 24px 24px; }
+    .dgm-title { font-size:16px; font-weight:700; color:#0f172a; }
+    .dgm-sub { font-size:12.5px; color:#64748b; margin:4px 0 20px; max-width:900px; line-height:1.5; }
+    .dgm-canvas { background:#f8fafc; border:1px solid #eef2f7; border-radius:10px; padding:26px 22px; background-image: radial-gradient(#e3e8ef 1px, transparent 1px); background-size:22px 22px; }
+
+    .layer { position:relative; border:1px dashed #cbd5e1; border-radius:10px; padding:28px 16px 18px; background:rgba(255,255,255,.55); }
+    .layer-tag { position:absolute; top:-11px; left:16px; background:#1e293b; color:#fff; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:3px 10px; border-radius:6px; }
+    .layer-row { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; align-items:stretch; }
+    .v-arrow { width:2px; height:22px; background:#cbd5e1; margin:6px auto; position:relative; }
+    .v-arrow::after { content:''; position:absolute; bottom:-1px; left:-4px; border:5px solid transparent; border-top-color:#94a3b8; }
+
+    .node { background:#fff; border:1px solid #d8dee9; border-left:4px solid #64748b; border-radius:8px; padding:11px 15px; min-width:158px; max-width:280px; box-shadow:0 1px 3px rgba(15,23,42,.07); }
+    .node b { font-size:13px; color:#0f172a; display:block; line-height:1.25; }
+    .node span { font-size:11px; color:#64748b; display:block; margin-top:3px; line-height:1.35; }
+    .n-client { border-left-color:#2563eb; } .n-client b { color:#1d4ed8; }
+    .n-edge { border-left-color:#0ea5e9; }
+    .n-app { border-left-color:#7c3aed; }
+    .n-data { border-left-color:#059669; }
+    .n-ext { border-left-color:#d97706; }
+
+    .app-shell { border:1.5px solid #ddd6fe; background:#faf5ff; border-radius:10px; padding:16px; width:100%; }
+    .app-shell-label { font-size:12px; font-weight:700; color:#6d28d9; margin-bottom:12px; text-align:center; }
+    .mod-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+    .mod { background:#fff; border:1px solid #e9d5ff; color:#5b21b6; border-radius:7px; padding:9px 8px; font-size:12px; font-weight:600; text-align:center; }
+    .mod small { display:block; font-weight:500; color:#8b5cf6; font-size:10px; margin-top:2px; }
+
+    .lane { display:flex; align-items:stretch; margin-bottom:12px; }
+    .lane:last-child { margin-bottom:0; }
+    .lane-label { width:140px; flex-shrink:0; display:flex; align-items:center; font-size:12px; font-weight:700; color:#334155; padding-right:12px; border-right:3px solid #e2e8f0; }
+    .lane-body { flex:1; padding-left:16px; display:flex; align-items:center; flex-wrap:wrap; gap:2px; }
+    .flow-arrow { display:flex; flex-direction:column; align-items:center; color:#94a3b8; padding:0 6px; min-width:34px; }
+    .flow-arrow .a-line { font-size:20px; line-height:1; }
+    .flow-arrow .a-lbl { font-size:9.5px; color:#94a3b8; text-align:center; margin-top:2px; max-width:64px; line-height:1.2; }
+    .flow-return { margin-top:14px; font-size:12px; color:#0369a1; background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:9px 13px; }
+
+    .legend { display:flex; gap:18px; flex-wrap:wrap; margin-top:16px; font-size:11.5px; color:#475569; }
+    .legend i { width:11px; height:11px; border-radius:3px; display:inline-block; margin-right:6px; vertical-align:middle; }
+    code { font-family:'SF Mono',Consolas,monospace; font-size:11.5px; background:#f1f5f9; padding:1px 5px; border-radius:4px; color:#334155; }
+  </style>
+</head>
+<body style="background:#f1f5f9;">
+
+  <div class="top-shell">
+    <div class="top-brand">
+      <div class="mark">U</div>
+      <div><b>USI Procure</b><span>Purchasing Intelligence</span></div>
+    </div>
+    <nav class="top-tabs">
+      <a href="index.html">Wireframe</a>
+      <a href="requirements.html">Requirements</a>
+      <a href="architecture.html" class="active">Architecture</a>
+    </nav>
+    <div style="width:1px;"></div>
+  </div>
+
+  <div class="wf-wrap">
+
+    <div class="page-header" style="margin-bottom:0;">
+      <div>
+        <div class="page-title">Proposed Architecture</div>
+        <div class="page-subtitle">How USI Procure is put together — a living map maintained as decisions are made. Solid borders are decided; dashed / proposed items are recommendations pending sign-off.</div>
+      </div>
+    </div>
+
+    <div class="arch-intro">
+      <span class="arch-pill">Web-based · mobile-friendly</span>
+      <span class="arch-pill">Next.js monolith</span>
+      <span class="arch-pill">Connector-per-vendor</span>
+      <span class="arch-pill">Single PostgreSQL</span>
+      <span class="arch-pill">Hosted LLM for NLP</span>
+      <span class="arch-pill">Internal-only V1</span>
+      <span class="arch-pill" style="background:#dcfce7;color:#15803d;border-color:#bbf7d0;">Stack: Vercel · Neon · Next.js · Claude/GPT</span>
+    </div>
+    <div class="arch-note">
+      <strong>V1 is intentionally lightweight:</strong> no credit-card or client-financial data, so no heavyweight hardening.
+      Because it's standard Postgres, a sensitive <strong>V2 can be replicated to Azure</strong> later without a rewrite.
+    </div>
+
+    <!-- DIAGRAM 1 — SYSTEM ARCHITECTURE -->
+    <div class="dgm">
+      <div class="dgm-title">1 · System Architecture</div>
+      <div class="dgm-sub">Layered view. Internal buyers (browser or phone) reach a single Next.js app on Vercel. A search orchestrator fans out to one connector per vendor, normalizes the results, and writes price history to Postgres. Natural-language search and build-fit checks call a hosted LLM.</div>
+      <div class="dgm-canvas">
+
+        <div class="layer">
+          <span class="layer-tag">Clients</span>
+          <div class="layer-row">
+            <div class="node n-client"><b>Internal Buyers</b><span>Purchasing team — browser &amp; mobile, subscription access</span></div>
+            <div class="node n-client" style="border-style:dashed;"><b>Public / Consumer</b><span>Possible V2 — search on USI website</span></div>
+          </div>
+        </div>
+
+        <div class="v-arrow"></div>
+
+        <div class="layer">
+          <span class="layer-tag">Edge / Presentation</span>
+          <div class="layer-row">
+            <div class="node n-edge"><b>CDN + TLS/HTTPS</b><span>Vercel edge · static assets</span></div>
+            <div class="node n-edge"><b>Next.js Frontend</b><span>SSR · responsive · search &amp; results table</span></div>
+          </div>
+        </div>
+
+        <div class="v-arrow"></div>
+
+        <div class="layer">
+          <span class="layer-tag">Application</span>
+          <div class="layer-row">
+            <div class="app-shell">
+              <div class="app-shell-label">USI Procure Application — Next.js API · access-controlled endpoints</div>
+              <div class="mod-grid">
+                <div class="mod">Search Orchestrator <small>fan-out · normalize</small></div>
+                <div class="mod">NLP Interpreter <small>intent → SKU match</small></div>
+                <div class="mod">Vendor Connectors <small>API + scrape</small></div>
+                <div class="mod">SKU Catalog <small>find-once · log</small></div>
+                <div class="mod">Price History <small>every search stored</small></div>
+                <div class="mod">Alerts &amp; Watchlists <small>drop · restock</small></div>
+                <div class="mod">Quotes <small>from best offer</small></div>
+                <div class="mod">Admin / Access <small>users · subscription</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="v-arrow"></div>
+
+        <div class="layer">
+          <span class="layer-tag">Data Stores</span>
+          <div class="layer-row">
+            <div class="node n-data"><b>PostgreSQL — Neon</b><span>SKU catalog · offers · price history · watchlists</span></div>
+            <div class="node n-data"><b>pgvector</b><span>Embeddings for NLP part matching</span></div>
+          </div>
+        </div>
+
+        <div class="v-arrow"></div>
+
+        <div class="layer">
+          <span class="layer-tag">External Services &amp; Vendors</span>
+          <div class="layer-row">
+            <div class="node n-ext"><b>Hosted LLM — Claude / GPT</b><span>NLP search · build-fit checks · ~$25/mo tier</span></div>
+            <div class="node n-ext"><b>D&amp;H · Ingram · TD SYNNEX</b><span>Reseller APIs (price &amp; availability)</span></div>
+            <div class="node n-ext"><b>Amazon Business</b><span>API / authenticated fetch</span></div>
+            <div class="node n-ext" style="border-style:dashed;"><b>Secondary vendors</b><span>ASI · Newegg · B&amp;H · eBay — later, some scraped</span></div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span><i style="background:#2563eb;"></i>Clients</span>
+          <span><i style="background:#0ea5e9;"></i>Edge / presentation</span>
+          <span><i style="background:#7c3aed;"></i>Application modules</span>
+          <span><i style="background:#059669;"></i>Data stores</span>
+          <span><i style="background:#d97706;"></i>External services &amp; vendors</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIAGRAM 2 — SEARCH DATA FLOW -->
+    <div class="dgm">
+      <div class="dgm-title">2 · Data Flow — A Search</div>
+      <div class="dgm-sub">Both entry paths converge on the same fan-out. A SKU goes straight to the connectors; a natural-language request is interpreted to a candidate part first. Every result is timestamped and logged to price history.</div>
+      <div class="dgm-canvas">
+
+        <div class="lane">
+          <div class="lane-label">Buyer input</div>
+          <div class="lane-body">
+            <div class="node n-client"><b>SKU / MPN</b><span>exact lookup</span></div>
+            <div class="flow-arrow"><span class="a-line">↘</span></div>
+            <div class="node n-client"><b>Natural language</b><span>"32GB RAM for a Dell Latitude"</span></div>
+            <div class="flow-arrow"><span class="a-line">→</span><span class="a-lbl">interpret</span></div>
+            <div class="node n-ext"><b>LLM interpreter</b><span>intent → candidate SKU + fit</span></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">Orchestrator</div>
+          <div class="lane-body">
+            <div class="node n-app"><b>Fan-out</b><span>query all vendor connectors in parallel</span></div>
+            <div class="flow-arrow"><span class="a-line">→</span></div>
+            <div class="node"><b>Per-vendor connector</b><span>API call or scrape · isolated failure</span></div>
+            <div class="flow-arrow"><span class="a-line">→</span></div>
+            <div class="node n-app"><b>Normalize</b><span>unify price · stock · terms · link</span></div>
+          </div>
+        </div>
+
+        <div class="lane">
+          <div class="lane-label">Result</div>
+          <div class="lane-body">
+            <div class="node n-edge"><b>Ranked comparison</b><span>best price · in-stock · terms</span></div>
+            <div class="flow-arrow"><span class="a-line">→</span></div>
+            <div class="node n-data"><b>Log to price history</b><span>timestamped offer per vendor</span></div>
+            <div class="flow-arrow"><span class="a-line">→</span></div>
+            <div class="node n-data"><b>Update SKU catalog</b><span>find-once, reuse next time</span></div>
+          </div>
+        </div>
+
+        <div class="flow-return">
+          ↩ <b>One vendor failing never fails the search</b> — a down or blocked connector returns empty and is shown as "no result," while the rest of the comparison stands.
+        </div>
+      </div>
+    </div>
+
+    <!-- DIAGRAM 3 — CONNECTOR MODEL -->
+    <div class="dgm">
+      <div class="dgm-title">3 · Connector Model — Adding Vendors</div>
+      <div class="dgm-sub">Every vendor implements one interface, so API-backed and scraped vendors look identical to the rest of the app. Adding a vendor is adding a connector — nothing else changes.</div>
+      <div class="dgm-canvas" style="background-image:none;">
+        <div class="layer-row" style="align-items:stretch;">
+          <div class="node n-app" style="max-width:340px;">
+            <b>interface VendorConnector</b>
+            <span style="margin-top:8px;">
+              <code>id</code> · <code>name</code> · <code>live</code><br>
+              <code>search(sku) → Offer[]</code>
+            </span>
+            <span style="margin-top:8px;">Offer = price · currency · inStock · qty · paymentTerms · productUrl · collectedAt</span>
+          </div>
+          <div class="flow-arrow" style="align-self:center;"><span class="a-line">→</span><span class="a-lbl">implemented by</span></div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="node n-ext"><b>API connectors</b><span>D&amp;H · Ingram · TD SYNNEX · Amazon Business — direct reseller APIs</span></div>
+            <div class="node" style="border-left-color:#64748b;border-style:dashed;"><b>Scrape connectors</b><span>Secondary vendors without an API — headless fetch behind the same interface</span></div>
+            <div class="node n-app"><b>Mock connectors</b><span>Deterministic fake data — proven the pipeline runs end-to-end today</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STACK -->
+    <div class="dgm">
+      <div class="dgm-title">4 · Stack &amp; Environments</div>
+      <div class="dgm-sub">Chosen to be fast, cheap, and standard — nothing exotic, easy to lift to Azure for a sensitive V2.</div>
+      <table class="table">
+        <thead><tr><th>Layer</th><th>Choice</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Frontend / App</td><td><b>Next.js</b> (React, SSR)</td><td>Fast, lightweight, mobile-friendly, one codebase for UI + API</td></tr>
+          <tr><td>Hosting</td><td><b>Vercel</b></td><td>Secure, low-ops, internal (not public-facing) in V1</td></tr>
+          <tr><td>Database</td><td><b>Neon</b> (PostgreSQL + pgvector)</td><td>No sensitive financial data; standard Postgres → replicable to Azure for V2</td></tr>
+          <tr><td>Natural language</td><td><b>Hosted LLM — Claude / GPT</b></td><td>No in-house model training; subscription tier (~$25/mo est.)</td></tr>
+          <tr><td>Access</td><td><b>Subscription / internal auth</b></td><td>Internal-only in V1; possible public consumer search in V2</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="text-xs text-muted" style="text-align:center;padding:4px 0 24px;">
+      Proposed architecture pending sign-off — <a href="requirements.html" class="link">see Requirements</a> for scope and
+      <a href="index.html" class="link">the Wireframe</a> for the interface.
+    </p>
+
+  </div>
+</body>
+</html>

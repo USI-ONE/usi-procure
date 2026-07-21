@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USI Procure — Requirements</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .top-shell { background:#0f172a; color:#fff; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+    .top-brand { display:flex; align-items:center; gap:10px; }
+    .top-brand .mark { width:30px; height:30px; border-radius:7px; background:#2563eb; color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; }
+    .top-brand b { font-size:15px; font-weight:700; letter-spacing:-0.2px; }
+    .top-brand span { font-size:11px; color:#94a3b8; display:block; margin-top:1px; }
+    .top-tabs { display:flex; gap:2px; }
+    .top-tabs a { color:#cbd5e1; text-decoration:none; font-size:13px; font-weight:500; padding:8px 16px; border-radius:7px; }
+    .top-tabs a:hover { background:#1e293b; color:#fff; }
+    .top-tabs a.active { background:#2563eb; color:#fff; }
+    .wf-wrap { max-width:1000px; margin:0 auto; padding:24px; display:flex; flex-direction:column; gap:20px; }
+
+    .req-section { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:22px 26px; }
+    .req-section h2 { font-size:16px; font-weight:700; color:#0f172a; display:flex; align-items:center; gap:9px; margin-bottom:6px; }
+    .req-section h2 .num { width:24px; height:24px; border-radius:6px; background:#eff6ff; color:#1d4ed8; font-size:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .req-section .lead { font-size:13px; color:#64748b; margin-bottom:16px; line-height:1.55; }
+    .req-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
+    .req-list li { display:flex; gap:10px; font-size:13.5px; color:#334155; line-height:1.5; align-items:flex-start; }
+    .req-list li::before { content:'▸'; color:#2563eb; font-weight:700; flex-shrink:0; }
+    .req-id { font-family:'SF Mono',monospace; font-size:11px; background:#f1f5f9; color:#475569; padding:1px 6px; border-radius:4px; margin-right:2px; }
+    .pri-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .v-card { border:1px solid #e2e8f0; border-radius:10px; padding:14px 16px; }
+    .v-card h4 { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:#64748b; margin-bottom:10px; }
+    .v-row { display:flex; align-items:center; justify-content:space-between; padding:7px 0; border-bottom:1px solid #f1f5f9; font-size:13px; }
+    .v-row:last-child { border-bottom:none; }
+    @media (max-width:760px){ .pri-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body style="background:#f1f5f9;">
+
+  <div class="top-shell">
+    <div class="top-brand">
+      <div class="mark">U</div>
+      <div><b>USI Procure</b><span>Purchasing Intelligence</span></div>
+    </div>
+    <nav class="top-tabs">
+      <a href="index.html">Wireframe</a>
+      <a href="requirements.html" class="active">Requirements</a>
+      <a href="architecture.html">Architecture</a>
+    </nav>
+    <div style="width:1px;"></div>
+  </div>
+
+  <div class="wf-wrap">
+
+    <div class="page-header" style="margin-bottom:0;">
+      <div>
+        <div class="page-title">Requirements &amp; Scope</div>
+        <div class="page-subtitle">What we're building, drawn from the scoping meeting. Review this alongside the wireframe and flag anything that's off before we write code.</div>
+      </div>
+    </div>
+
+    <!-- 1 · Problem -->
+    <div class="req-section">
+      <h2><span class="num">1</span> The problem</h2>
+      <p class="lead">
+        Purchasing spends significant time comparing price and availability across distributor and reseller sites by hand —
+        copy a SKU, search each site, compare manually. It's repetitive, slow, and makes it hard to consistently land the best
+        buy. Vendors also negotiate: list price online is often <b>$5–$200/unit above</b> what USI actually pays when we ask
+        (ASI, D&amp;H) — roughly 10% of the time worth chasing.
+      </p>
+    </div>
+
+    <!-- 2 · Objective -->
+    <div class="req-section">
+      <h2><span class="num">2</span> Objective</h2>
+      <p class="lead">
+        A centralized, web-based purchasing intelligence tool that searches USI's distributor network for a part and returns a
+        consolidated, ranked view of price, availability, and purchasing terms — cutting procurement time and building a
+        foundation for pricing analytics over time.
+      </p>
+    </div>
+
+    <!-- 3 · Search -->
+    <div class="req-section">
+      <h2><span class="num">3</span> Search &amp; matching</h2>
+      <p class="lead">The hard part isn't the results table — it's the search. What we call a part on Amazon isn't what Ingram calls it. Two entry paths:</p>
+      <ul class="req-list">
+        <li><span class="req-id">SR-1</span> <b>SKU / MPN search</b> — exact manufacturer part number lookup across all vendors.</li>
+        <li><span class="req-id">SR-2</span> <b>Natural-language search</b> — e.g. "32GB RAM that fits a Dell Latitude" or "M.2 NVMe for a ThinkPad." The tool interprets intent and finds the matching part per vendor, even when their naming differs. Powered by a hosted LLM (Claude / GPT) — not a model we build.</li>
+        <li><span class="req-id">SR-3</span> <b>Find-once, log-once</b> — once a SKU is identified, save the mapping so future searches are instant.</li>
+        <li><span class="req-id">SR-4</span> <b>Build-fit confirmation (future)</b> — validate that a part actually fits the target platform, supplementing in-house expertise. Possible public-facing consumer version in a later phase.</li>
+      </ul>
+    </div>
+
+    <!-- 4 · Vendors -->
+    <div class="req-section">
+      <h2><span class="num">4</span> Vendors</h2>
+      <p class="lead">Start with the four USI maps against most and buys from most; everything else is secondary and added once the core works.</p>
+      <div class="pri-grid">
+        <div class="v-card">
+          <h4>Primary — MVP</h4>
+          <div class="v-row"><span>D&amp;H</span><span class="badge badge-green">Account · Net terms</span></div>
+          <div class="v-row"><span>Ingram Micro</span><span class="badge badge-green">Account · Net terms</span></div>
+          <div class="v-row"><span>TD SYNNEX</span><span class="badge badge-green">Account · Net terms</span></div>
+          <div class="v-row"><span>Amazon Business</span><span class="badge badge-purple">Net / Card</span></div>
+        </div>
+        <div class="v-card">
+          <h4>Secondary — later phases</h4>
+          <div class="v-row"><span>ASI</span><span class="badge badge-gray">Negotiated</span></div>
+          <div class="v-row"><span>Newegg · B&amp;H</span><span class="badge badge-gray">Card</span></div>
+          <div class="v-row"><span>Bestlink · eBay</span><span class="badge badge-gray">Mixed</span></div>
+          <div class="v-row"><span>+ expandable</span><span class="text-xs text-muted">connector-based</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 · Data per vendor -->
+    <div class="req-section">
+      <h2><span class="num">5</span> Data captured per vendor</h2>
+      <ul class="req-list">
+        <li><span class="req-id">DR-1</span> Current unit price (our buy price where exposed, else list)</li>
+        <li><span class="req-id">DR-2</span> Stock availability &amp; quantity where available</li>
+        <li><span class="req-id">DR-3</span> Vendor name</li>
+        <li><span class="req-id">DR-4</span> Payment terms — Account / Net vs. Credit Card</li>
+        <li><span class="req-id">DR-5</span> Direct link to the product listing</li>
+        <li><span class="req-id">DR-6</span> Timestamp of when pricing was collected</li>
+      </ul>
+    </div>
+
+    <!-- 6 · MVP -->
+    <div class="req-section">
+      <h2><span class="num">6</span> MVP deliverables</h2>
+      <ul class="req-list">
+        <li><span class="req-id">MVP-1</span> Single search (SKU + natural language) across the four primary vendors</li>
+        <li><span class="req-id">MVP-2</span> Automated, consolidated comparison table</li>
+        <li><span class="req-id">MVP-3</span> Inventory visibility where available</li>
+        <li><span class="req-id">MVP-4</span> Sort &amp; filter by price, availability, vendor, and payment terms</li>
+        <li><span class="req-id">MVP-5</span> Best-price highlight + links back to each vendor listing</li>
+        <li><span class="req-id">MVP-6</span> Log searched SKUs to a catalog</li>
+      </ul>
+    </div>
+
+    <!-- 7 · Future -->
+    <div class="req-section">
+      <h2><span class="num">7</span> Future enhancements</h2>
+      <ul class="req-list">
+        <li>Historical price database for every SKU searched + trend visualization</li>
+        <li>Price-drop &amp; inventory alerts; saved watchlists for frequent buys</li>
+        <li>Predictive purchasing insights from historical pricing</li>
+        <li>Quote generation; recommendations by total landed cost, terms &amp; availability</li>
+        <li>"Request a better deal" workflow for negotiable vendors</li>
+        <li>Possible public/consumer-facing search on the USI website (V2)</li>
+      </ul>
+    </div>
+
+    <!-- 8 · Non-functional / platform -->
+    <div class="req-section">
+      <h2><span class="num">8</span> Platform &amp; non-functional</h2>
+      <ul class="req-list">
+        <li><span class="req-id">NF-1</span> <b>Web-based</b>, fast &amp; lightweight — usable on a phone, not tethered to a desk. Built on Next.js.</li>
+        <li><span class="req-id">NF-2</span> <b>Hosted on Vercel</b> — internal / not public client-facing in V1; secure without heavy hardening.</li>
+        <li><span class="req-id">NF-3</span> <b>Neon (PostgreSQL)</b> database — no credit-card or client-financial data, so no heavyweight hardening needed. Standard Postgres so it can be replicated to Azure for a sensitive V2.</li>
+        <li><span class="req-id">NF-4</span> <b>Hosted LLM</b> for natural-language search (Claude / GPT) on a subscription tier — no in-house model training. Est. ~$25/mo plan covers expected usage.</li>
+        <li><span class="req-id">NF-5</span> <b>Access-controlled</b> — internal subscription-level access, not open to the public in V1.</li>
+      </ul>
+    </div>
+
+    <!-- 9 · Decisions & open -->
+    <div class="req-section">
+      <h2><span class="num">9</span> Decisions &amp; open questions</h2>
+      <div class="alert alert-success" style="margin-bottom:12px;">✓ <b>Decided:</b> Next.js · Vercel · Neon Postgres · hosted LLM for NLP · four primary vendors first · internal-only V1.</div>
+      <div class="alert alert-warn">
+        <span>◇</span>
+        <div><b>Open:</b> which vendors expose API vs. require scraping &amp; the credentials for each · how "our price" vs. list is obtained · LLM provider &amp; budget confirmation · negotiation/"request a deal" workflow detail · V2 public-facing scope.</div>
+      </div>
+    </div>
+
+    <p class="text-xs text-muted" style="text-align:center;padding:4px 0 24px;">
+      Requirements draft from the scoping meeting — <a href="index.html" class="link">see the Wireframe</a> for how this looks, and
+      <a href="architecture.html" class="link">the Architecture</a> for how it's built.
+    </p>
+
+  </div>
+</body>
+</html>

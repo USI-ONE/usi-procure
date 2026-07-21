@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USI Procure — Purchasing Intelligence</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Shared top shell for the 3-tab wireframe set */
+    .top-shell { background:#0f172a; color:#fff; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:56px; }
+    .top-brand { display:flex; align-items:center; gap:10px; }
+    .top-brand .mark { width:30px; height:30px; border-radius:7px; background:#2563eb; color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; }
+    .top-brand b { font-size:15px; font-weight:700; letter-spacing:-0.2px; }
+    .top-brand span { font-size:11px; color:#94a3b8; display:block; margin-top:1px; }
+    .top-tabs { display:flex; gap:2px; }
+    .top-tabs a { color:#cbd5e1; text-decoration:none; font-size:13px; font-weight:500; padding:8px 16px; border-radius:7px; }
+    .top-tabs a:hover { background:#1e293b; color:#fff; }
+    .top-tabs a.active { background:#2563eb; color:#fff; }
+    .top-env { font-size:11px; color:#fbbf24; background:#78350f33; border:1px solid #a1660033; padding:4px 10px; border-radius:6px; }
+    .wf-wrap { max-width:1180px; margin:0 auto; padding:24px; display:flex; flex-direction:column; gap:20px; }
+
+    /* Search modes */
+    .search-modes { display:flex; gap:6px; margin-bottom:14px; }
+    .search-mode { padding:7px 14px; border:1px solid #e2e8f0; border-radius:8px; background:#fff; font-size:13px; font-weight:600; color:#64748b; cursor:pointer; display:flex; align-items:center; gap:6px; }
+    .search-mode.active { border-color:#2563eb; background:#eff6ff; color:#1d4ed8; }
+    .ai-chip { font-size:10px; font-weight:700; background:#7c3aed; color:#fff; padding:1px 6px; border-radius:5px; letter-spacing:.03em; }
+    .big-search { display:flex; gap:10px; }
+    .big-search input { flex:1; padding:13px 16px; border:1px solid #d1d5db; border-radius:9px; font-size:15px; outline:none; }
+    .big-search input:focus { border-color:#2563eb; box-shadow:0 0 0 3px #dbeafe; }
+    .nl-example { font-size:12px; color:#94a3b8; margin-top:8px; }
+    .nl-example code { background:#f1f5f9; padding:2px 7px; border-radius:5px; color:#475569; cursor:pointer; }
+
+    .vendor-cell { display:flex; align-items:center; gap:9px; }
+    .vendor-logo { width:30px; height:30px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff; flex-shrink:0; }
+    .price-big { font-size:15px; font-weight:700; color:#0f172a; }
+    .best-row td { background:#f0fdf4 !important; }
+    .best-flag { font-size:10px; font-weight:700; background:#16a34a; color:#fff; padding:2px 7px; border-radius:5px; margin-left:6px; }
+    .match-bar { display:inline-flex; align-items:center; gap:6px; }
+    .match-pct { font-size:11px; font-weight:600; color:#475569; }
+  </style>
+</head>
+<body style="background:#f1f5f9;">
+
+  <div class="top-shell">
+    <div class="top-brand">
+      <div class="mark">U</div>
+      <div><b>USI Procure</b><span>Purchasing Intelligence</span></div>
+    </div>
+    <nav class="top-tabs">
+      <a href="index.html" class="active">Wireframe</a>
+      <a href="requirements.html">Requirements</a>
+      <a href="architecture.html">Architecture</a>
+    </nav>
+    <div class="top-env">◆ Wireframe — mockup only, non-functional</div>
+  </div>
+
+  <div class="wf-wrap">
+
+    <div class="page-header" style="margin-bottom:0;">
+      <div>
+        <div class="page-title">Find the best buy across our distributors</div>
+        <div class="page-subtitle">Search one SKU or describe the part in plain language — USI Procure queries every vendor and ranks the results.</div>
+      </div>
+      <div class="page-header-actions">
+        <button class="btn btn-secondary">☆ Watchlists</button>
+        <button class="btn btn-secondary">🗂 SKU Catalog</button>
+      </div>
+    </div>
+
+    <!-- SEARCH CARD -->
+    <div class="card">
+      <div class="card-body">
+        <div class="search-modes">
+          <div class="search-mode active">🔢 SKU / MPN</div>
+          <div class="search-mode">🧠 Natural language <span class="ai-chip">AI</span></div>
+          <div class="search-mode">🖼 Image / paste</div>
+        </div>
+        <div class="big-search">
+          <input type="text" value="Dell AB120mm — 32GB DDR5 SODIMM" placeholder="Enter a manufacturer SKU / MPN…">
+          <button class="btn btn-primary" style="padding:0 22px;font-size:14px;">Search vendors →</button>
+        </div>
+        <div class="nl-example">
+          Try natural language:
+          <code>32GB RAM that fits a Dell Latitude 5540</code>
+          <code>M.2 NVMe 1TB compatible with ThinkPad T14</code>
+          <code>USB-C 100W charger, business grade</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- NLP INTERPRETATION (only shown for NL search) -->
+    <div class="alert alert-info" style="align-items:center;">
+      <span style="font-size:16px;">🧠</span>
+      <div>
+        <b>Interpreted your request</b> — matched to <b>Crucial CT32G56C46S5</b> (32GB DDR5-5600 SODIMM).
+        Confirmed compatible with Dell Latitude 5540.
+        <a href="#" class="alert-link">Not what you meant? Refine →</a>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">4 vendors &middot; results for <span class="sku">CT32G56C46S5</span></div>
+        <div class="card-actions">
+          <label class="input-label"><input type="checkbox" checked> In stock only</label>
+          <select class="input-sm">
+            <option>Sort: Best price</option>
+            <option>Sort: Availability</option>
+            <option>Sort: Vendor</option>
+            <option>Sort: Landed cost</option>
+          </select>
+          <select class="input-sm">
+            <option>All terms</option>
+            <option>Net terms only</option>
+            <option>Credit card OK</option>
+          </select>
+          <button class="btn btn-secondary btn-sm">⟳ Refresh</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Vendor</th>
+              <th class="text-right">Unit price</th>
+              <th>Availability</th>
+              <th>Payment terms</th>
+              <th>Match</th>
+              <th>Collected</th>
+              <th>Listing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="best-row">
+              <td>
+                <div class="vendor-cell">
+                  <div class="vendor-logo" style="background:#0072ce;">DH</div>
+                  <div><b>D&amp;H</b><span class="best-flag">Best price</span></div>
+                </div>
+              </td>
+              <td class="text-right"><span class="price-big">$104.18</span></td>
+              <td><span class="dot dot-green"></span> In stock &middot; 42</td>
+              <td><span class="badge badge-blue">Net 30</span></td>
+              <td><span class="match-bar"><div class="progress-bar-wrap"><div class="progress-bar fill-green" style="width:100%;"></div></div><span class="match-pct">Exact</span></span></td>
+              <td class="text-xs text-muted">2 min ago</td>
+              <td><a href="#" class="link">View →</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="vendor-cell">
+                  <div class="vendor-logo" style="background:#1a3668;">IM</div>
+                  <div><b>Ingram Micro</b></div>
+                </div>
+              </td>
+              <td class="text-right"><span class="price-big">$106.90</span></td>
+              <td><span class="dot dot-green"></span> In stock &middot; 118</td>
+              <td><span class="badge badge-blue">Net 30</span></td>
+              <td><span class="match-bar"><div class="progress-bar-wrap"><div class="progress-bar fill-green" style="width:100%;"></div></div><span class="match-pct">Exact</span></span></td>
+              <td class="text-xs text-muted">2 min ago</td>
+              <td><a href="#" class="link">View →</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="vendor-cell">
+                  <div class="vendor-logo" style="background:#00a4b4;">TS</div>
+                  <div><b>TD SYNNEX</b></div>
+                </div>
+              </td>
+              <td class="text-right"><span class="price-big">$109.42</span></td>
+              <td><span class="dot dot-yellow"></span> Low stock &middot; 6</td>
+              <td><span class="badge badge-blue">Net 30</span></td>
+              <td><span class="match-bar"><div class="progress-bar-wrap"><div class="progress-bar fill-green" style="width:100%;"></div></div><span class="match-pct">Exact</span></span></td>
+              <td class="text-xs text-muted">3 min ago</td>
+              <td><a href="#" class="link">View →</a></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="vendor-cell">
+                  <div class="vendor-logo" style="background:#ff9900;">AB</div>
+                  <div><b>Amazon Business</b></div>
+                </div>
+              </td>
+              <td class="text-right"><span class="price-big">$118.99</span></td>
+              <td><span class="dot dot-green"></span> In stock</td>
+              <td><span class="badge badge-purple">Net / Card</span></td>
+              <td><span class="match-bar"><div class="progress-bar-wrap"><div class="progress-bar fill-yellow" style="width:82%;"></div></div><span class="match-pct">Likely</span></span></td>
+              <td class="text-xs text-muted">1 min ago</td>
+              <td><a href="#" class="link">View →</a></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" class="text-xs text-muted">
+                Prices are landed unit cost where terms are known. Some vendors negotiate below list —
+                <a href="#" class="link">flag for buyer to request a better deal</a> (ASI, D&amp;H typically $5–$200/unit).
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- LOWER ROW: price history + buyer actions -->
+    <div class="g2">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Price history — CT32G56C46S5</div>
+          <a href="#" class="card-link">Full trend →</a>
+        </div>
+        <div class="card-body">
+          <div class="chart-placeholder">
+            <div class="chart-bars">
+              <div class="chart-bar-group"><div class="chart-bar" style="height:70%;background:#93c5fd;"></div><div class="chart-bar-label">Mar</div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:64%;background:#93c5fd;"></div><div class="chart-bar-label">Apr</div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:58%;background:#93c5fd;"></div><div class="chart-bar-label">May</div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:55%;background:#93c5fd;"></div><div class="chart-bar-label">Jun</div></div>
+              <div class="chart-bar-group"><div class="chart-bar" style="height:48%;background:#2563eb;border:2px solid #1d4ed8;"></div><div class="chart-bar-label"><b>Jul</b></div></div>
+            </div>
+          </div>
+          <div class="chart-legend"><span class="legend-dot" style="background:#2563eb;"></span> Lowest vendor price / month &middot; ▼ 14% since March</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Buyer actions</div>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:10px;">
+          <div class="flex-between" style="padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;">
+            <div><b>Log this SKU</b><div class="text-xs text-muted">Save mapping so it's found instantly next time</div></div>
+            <button class="btn btn-secondary btn-sm">🗂 Add to catalog</button>
+          </div>
+          <div class="flex-between" style="padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;">
+            <div><b>Watch price &amp; stock</b><div class="text-xs text-muted">Alert on drop below $100 or restock</div></div>
+            <button class="btn btn-secondary btn-sm">🔔 Set alert</button>
+          </div>
+          <div class="flex-between" style="padding:10px 12px;border:1px solid #ddd6fe;border-radius:8px;background:#faf5ff;">
+            <div><b>Confirm build compatibility</b> <span class="ai-chip">AI</span><div class="text-xs text-muted">Verify the part fits the target platform</div></div>
+            <button class="btn btn-secondary btn-sm">✔ Check fit</button>
+          </div>
+          <button class="btn btn-primary" style="justify-content:center;">Generate quote from best offer</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-xs text-muted" style="text-align:center;padding:8px 0 24px;">
+      Wireframe for review — layout &amp; functionality concept only. Data shown is illustrative.
+      See the <a href="requirements.html" class="link">Requirements</a> and
+      <a href="architecture.html" class="link">Architecture</a> tabs for scope and the proposed build.
+    </p>
+
+  </div>
+</body>
+</html>
