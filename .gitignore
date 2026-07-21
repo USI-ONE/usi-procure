@@ -1,0 +1,21 @@
+# Secrets — vendor API credentials, never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Node / Next.js (for when app code lands)
+node_modules/
+.next/
+out/
+dist/
+build/
+.vercel/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
