@@ -11,6 +11,13 @@ hand — copy a SKU, search each site, compare manually. This tool automates tha
 > Real vendor APIs drop in behind the same interface once credentials are provisioned. See
 > [`docs/`](docs/).
 
+## 🔗 Wireframe (for review)
+
+**Live:** https://usi-procure-wireframes.vercel.app — public, three tabs:
+**Wireframe** (tool mockup), **Requirements** (scope from the scoping meeting), and
+**Proposed Architecture**. Static HTML in [`wireframes/`](wireframes/), same design system as the
+GMW project. Deploy with `vercel --prod` from `wireframes/`.
+
 ## Running locally
 
 ```bash
