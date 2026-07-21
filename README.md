@@ -6,7 +6,27 @@ network for a given SKU and returns a consolidated view of pricing, availability
 USI is an MSP reseller; today the purchasing team compares pricing and stock across vendor sites by
 hand — copy a SKU, search each site, compare manually. This tool automates that comparison.
 
-> Status: **planning / requirements** — no application code yet. See [`docs/`](docs/).
+> Status: **MVP scaffold running on mock data.** The full pipeline (search UI → orchestrator →
+> vendor connectors → results table) works end-to-end; each vendor currently uses a mock connector.
+> Real vendor APIs drop in behind the same interface once credentials are provisioned. See
+> [`docs/`](docs/).
+
+## Running locally
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
+
+Stack: Next.js (App Router, TypeScript) + Tailwind, Postgres via Neon (persistence phase),
+deploy on Vercel.
+
+### How vendors plug in
+
+Every vendor implements `VendorConnector` (`src/lib/vendors/types.ts`): `search(sku) => Offer[]`.
+The orchestrator (`src/lib/orchestrator.ts`) fans out to all registered connectors in parallel and
+isolates failures. To wire a real vendor, replace its entry in `src/lib/vendors/index.ts` with a live
+connector — nothing else changes.
 
 ## What it does (MVP)
 
