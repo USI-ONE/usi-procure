@@ -6,16 +6,8 @@
   <title>USI Procure — Requirements</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    .top-shell { background:#0f172a; color:#fff; padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:56px; }
-    .top-brand { display:flex; align-items:center; gap:10px; }
-    .top-brand .mark { width:30px; height:30px; border-radius:7px; background:#2563eb; color:#fff; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; }
-    .top-brand b { font-size:15px; font-weight:700; letter-spacing:-0.2px; }
-    .top-brand span { font-size:11px; color:#94a3b8; display:block; margin-top:1px; }
-    .top-tabs { display:flex; gap:2px; }
-    .top-tabs a { color:#cbd5e1; text-decoration:none; font-size:13px; font-weight:500; padding:8px 16px; border-radius:7px; }
-    .top-tabs a:hover { background:#1e293b; color:#fff; }
-    .top-tabs a.active { background:#2563eb; color:#fff; }
-    .wf-wrap { max-width:1000px; margin:0 auto; padding:24px; display:flex; flex-direction:column; gap:20px; }
+    .env-chip { font-size:11px; color:#b45309; background:#fef3c7; border:1px solid #fde68a; padding:4px 10px; border-radius:6px; font-weight:600; }
+    .rq-inner { max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:20px; }
 
     .req-section { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:22px 26px; }
     .req-section h2 { font-size:16px; font-weight:700; color:#0f172a; display:flex; align-items:center; gap:9px; margin-bottom:6px; }
@@ -33,22 +25,30 @@
     @media (max-width:760px){ .pri-grid{grid-template-columns:1fr;} }
   </style>
 </head>
-<body style="background:#f1f5f9;">
+<body class="app-layout">
 
-  <div class="top-shell">
-    <div class="top-brand">
-      <div class="mark">U</div>
-      <div><b>USI Procure</b><span>Purchasing Intelligence</span></div>
+  <aside class="sidebar">
+    <div class="sidebar-brand"><div class="logo">USI Procure</div><div class="client">USI · Purchasing Intelligence</div></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Wireframe</div>
+      <a href="index.html">🔍 SKU Search</a>
+      <a href="nl-search.html">🧠 Natural Language</a>
     </div>
-    <nav class="top-tabs">
-      <a href="index.html">Wireframe</a>
-      <a href="requirements.html" class="active">Requirements</a>
-      <a href="architecture.html">Architecture</a>
-    </nav>
-    <div style="width:1px;"></div>
-  </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Project</div>
+      <a href="requirements.html" class="active">📋 Requirements</a>
+      <a href="architecture.html">🗺 Architecture</a>
+    </div>
+    <div class="sidebar-footer">CW · Christopher Wall</div>
+  </aside>
 
-  <div class="wf-wrap">
+  <div class="main-wrapper">
+    <header class="topbar">
+      <div class="topbar-left"><span class="breadcrumb">Project / <b>Requirements</b></span></div>
+      <div class="topbar-right"><span class="env-chip">◆ Wireframe — mockup only</span></div>
+    </header>
+    <main class="main-content">
+      <div class="rq-inner">
 
     <div class="page-header" style="margin-bottom:0;">
       <div>
@@ -178,6 +178,8 @@
       <a href="architecture.html" class="link">the Architecture</a> for how it's built.
     </p>
 
+      </div>
+    </main>
   </div>
 </body>
 </html>
