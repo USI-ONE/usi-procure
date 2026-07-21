@@ -3,10 +3,11 @@
 ## Phase 0 — Requirements & access (current)
 
 - [x] Capture brief
-- [ ] Confirm which vendors we have reseller accounts + API credentials for
-- [ ] Confirm each vendor's data-access approach (API vs. scrape) — see [`vendors.md`](vendors.md)
-- [ ] Decide MVP vendor set
-- [ ] Lock stack & hosting decision
+- [x] Confirm reseller accounts — Ingram, D&H, Amazon Business, TD SYNNEX ✅
+- [x] Decide MVP vendor set — the four above
+- [x] Lock stack & hosting decision — Next.js + Neon on Vercel
+- [ ] Obtain/confirm **API credentials** for each of the four (account ≠ API key)
+- [ ] Confirm each vendor's data-access approach (API vs. EDI) — see [`vendors.md`](vendors.md)
 
 ## Phase 1 — MVP
 

@@ -1,7 +1,9 @@
 # Architecture (Proposed)
 
-> Draft for discussion — not locked in. Aligns with the stack USI/GMW already use (Next.js on Vercel,
-> Postgres via Neon) unless there's a reason to diverge.
+> **Stack: LOCKED** — Next.js on Vercel, Postgres via Neon (matches USI/GMW). TypeScript throughout.
+>
+> **MVP vendor set: LOCKED** — TD SYNNEX, Ingram Micro, D&H, Amazon Business (all API-backed;
+> USI has confirmed reseller accounts). Secondary/scrape vendors come in Phase 2.
 
 ## High-level shape
 

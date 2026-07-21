@@ -10,15 +10,19 @@ falls into one of three buckets:
 
 > ⚠️ The specifics below are a **starting hypothesis** and must be confirmed against each vendor's
 > current partner program and our account status. Do not treat as authoritative until verified.
+>
+> ✅ **Confirmed:** USI has active reseller accounts with **Ingram Micro, D&H, Amazon Business, and
+> TD SYNNEX** — these four are the MVP vendor set. Next step per vendor is obtaining/confirming API
+> credentials (not just the trading account).
 
 ## Primary vendors
 
-| Vendor         | Likely access | Notes |
-|----------------|---------------|-------|
-| TD SYNNEX      | API           | ECExpress / partner API for price & availability, order status. Requires reseller account + API credentials. |
-| Ingram Micro   | API           | Ingram Micro xVantage / Reseller API (price & availability, product catalog). Requires partner onboarding + keys. |
-| D&H            | API / EDI     | D&H offers API / EDI feeds for price & availability to account holders. Confirm REST availability vs. EDI-only. |
-| Amazon Business| API / Scrape  | Amazon Business APIs exist but access is gated; Product Advertising API has strict eligibility. May need scraping of Business pricing while logged in. |
+| Vendor         | Account | Likely access | Notes |
+|----------------|---------|---------------|-------|
+| TD SYNNEX      | ✅ USI account | API      | ECExpress / partner API for price & availability, order status. Confirm API credential provisioning. |
+| Ingram Micro   | ✅ USI account | API      | Ingram Micro xVantage / Reseller API (price & availability, product catalog). Confirm API key onboarding. |
+| D&H            | ✅ USI account | API / EDI | D&H offers API / EDI feeds for price & availability to account holders. Confirm REST availability vs. EDI-only. |
+| Amazon Business| ✅ USI account | API / Scrape | Amazon Business APIs are gated; Product Advertising API has strict eligibility. May need scraping of Business pricing while logged in. |
 
 ## Secondary vendors
 
