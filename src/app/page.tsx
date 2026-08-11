@@ -160,9 +160,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-lg border border-gray-200">
+          <div className="overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
             <table className="w-full text-sm">
-              <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+              <thead className="bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500 dark:bg-gray-900 dark:text-gray-400">
                 <tr>
                   <th className="px-4 py-2.5 font-medium">Vendor</th>
                   <th className="px-4 py-2.5 font-medium">Price</th>
@@ -171,11 +171,14 @@ export default function Home() {
                   <th className="px-4 py-2.5 font-medium">Link</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                 {offers.map((o) => {
                   const isBest = best && o.vendorId === best.vendorId;
                   return (
-                    <tr key={o.vendorId} className={isBest ? "bg-green-50" : ""}>
+                    <tr
+                      key={o.vendorId}
+                      className={isBest ? "bg-green-50 dark:bg-green-950/40" : ""}
+                    >
                       <td className="px-4 py-2.5 font-medium">
                         {o.vendorName}
                         {isBest && (
@@ -194,7 +197,7 @@ export default function Home() {
                       </td>
                       <td className="px-4 py-2.5">
                         {o.inStock ? (
-                          <span className="text-green-700">
+                          <span className="text-green-700 dark:text-green-400">
                             In stock
                             {o.availableQty ? ` (${o.availableQty})` : ""}
                           </span>
@@ -210,7 +213,7 @@ export default function Home() {
                           href={o.productUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-blue-600 hover:underline"
+                          className="text-blue-600 hover:underline dark:text-blue-400"
                         >
                           View →
                         </a>
